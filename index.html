@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html><script type="text/javascript" class="__REQUESTLY__SCRIPT">(function(namespace) {
+  window[namespace] = window[namespace] || {};
+  window[namespace].responseRules = {};
+
+  let open = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function(method) {
+    this.addEventListener('readystatechange', function() {
+      if (this.readyState === 4 && window[namespace].responseRules.hasOwnProperty(this.responseURL)) {
+        const responseRule = window[namespace].responseRules[this.responseURL];
+        const {response, id} = responseRule;
+        const responseType = this.responseType;
+        let customResponse;
+
+        customResponse = response.type === 'code' ? responseRule.evaluator({
+            method,
+            url: this.responseURL,
+            requestHeaders: this.requestHeaders,
+            requestData: this.requestData,
+            responseType: this.responseType,
+            response: this.response
+          }) : response.value;
+
+        Object.defineProperty(this, 'response', {
+          get: function () {
+            if (response.type === 'static' && responseType === 'json') {
+              return JSON.parse(customResponse);
+            }
+            return customResponse;
+          }
+        });
+
+        if (responseType === '' || responseType === 'text') {
+          Object.defineProperty(this, 'responseText', {
+            get: function () {
+              return customResponse;
+            }
+          });
+        }
+
+        window.postMessage({
+          from: 'requestly',
+          type: 'response_rule_applied',
+          id
+        }, window.location.href);
+      }
+    }, false);
+    open.apply(this, arguments);
+  };
+
+  let send = XMLHttpRequest.prototype.send;
+  XMLHttpRequest.prototype.send = function(data) {
+    this.requestData = data;
+    send.apply(this, arguments);
+  };
+
+  let setRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
+  XMLHttpRequest.prototype.setRequestHeader = function(header, value) {
+    this.requestHeaders = this.requestHeaders || {};
+    this.requestHeaders[header] = value;
+    setRequestHeader.apply(this, arguments);
+  }
+})('__REQUESTLY__')</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title>Yann Labbé</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="Yann Labbé inria ens machine learning computer vision">
+	<meta name="author" content="Yann Labbé">
+
+	<link rel="stylesheet" href="./bootstrap.min.css">
+	<script src="./jquery.min.js"></script>
+	<script src="./popper.min.js"></script>
+	<script src="./bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="container">
+
+		<div class="row pt-3">
+			<div class="col-sm-4 col-md-3">
+				<img src="./yann.png" class="rounded img-fluid" alt="Yann Labbé"> 
+			</div>
+			<div class="col-sm-8 col-md-9">
+				<h1 class="text-info">Yann Labbé</h1>
+				<h3 class="text-info">PhD student</h3>
+				Willow team<br>
+				Centre de recherche Inria de Paris<br>
+				2 rue Simone IFF<br>
+				75012 Paris, France<br>
+			</div>
+		</div>
+
+		<div class="row pb-3 pt-3">
+			<div class="col-sm-12">
+				<a style="text-decoration: none" class="pr-1" href="mailto:yann.labbe@inria.fr" title="e-Mail">
+					<img src="./logos/mail.png" height="30" width="30" alt="email" style="vertical-align:middle;" border="0" onmouseover="this.src=&#39;./icons/mouseovermail.png&#39;;" onmouseout="this.src=&#39;./icons/mail.png&#39;;">
+				</a>
+				<a style="text-decoration: none" class="pr-1" href="https://scholar.google.com/citations?user=030pukwAAAAJ&hl=en" title="Google Scholar"><span style="font: 80% Arial,sans-serif; color:#0783B6;">
+					<img src="./logos/scholar.png" height="30" width="30" alt="google scholar" style="vertical-align:middle;" border="0" onmouseover="this.src=&#39;./icons/mouseoverscholar.png&#39;;" onmouseout="this.src=&#39;./icons/scholar.png&#39;;">
+				</span></a>
+				<a style="text-decoration: none" class="pr-1" href="https://github.com/ylabbe" title="GitHub">
+					<img src="./logos/github.png" height="30" width="30" alt="github" style="vertical-align:middle;" border="0" onmouseover="this.src=&#39;./icons/mouseovergithub.png&#39;;" onmouseout="this.src=&#39;./icons/github.png&#39;;">
+				</a>
+			</div>
+		</div>
+
+		<h2>Bio</h2>
+		<p align="justify"> I am a second-year PhD student at <a href="https://www.di.ens.fr/willow">Willow</a> project-team in <a href="https://www.inria.fr/">Inria Paris</a> and in the <a href="https://www.di.ens.fr/">Department of Computer Science</a> of <a href="http://www.ens.fr/">Ecole Normale Supérieure</a>, working under the supervision of <a href="http://www.di.ens.fr/~josef">Josef Sivic</a>.
+		    My work is focused on enabling robots to perform complex manipulation tasks autonomously in unstructured environments using computer vision. My current research interests are object pose estimation and more generally functional scene reconstruction methods targeted towards robotic applications.
+
+        Before doing my PhD, I graduated from <a href="https://ens-paris-saclay.fr/en"> Ecole Normale Supérieure de Cachan <a> where I received a dual Masters degree in Mathematics, Machine Learning, Computer Vision <a href="http://math.ens-paris-saclay.fr/version-francaise/formations/master-mva/"> (MVA)</a> and in Electrical Engineering <a href="https://www.universite-paris-saclay.fr/formation/master/electronique-energie-electrique-automatique"> (E3A)</a>. In 2017, I was among the top recipients of the nationwide competition <a href="https://en.wikipedia.org/wiki/Agr%C3%A9gation"> Agrégation </a> in Electrical Engineering.
+		</p>
+
+		<hr>
+
+		<h2>Publications</h2>
+
+		<div class="row mt-3">
+			<div class="col-sm-9 col-md-3">
+				<img src="./cosypose.png" class="img-thumbnail img-responsive" alt="CosyPose">
+			</div>
+			<div class="col-sm-8 col-md-9">
+				<b>CosyPose: Consistent multi-view multi-object 6D pose estimation</b><br>
+				<u>Yann Labbé</u>, Justin Carpentier, Mathieu Aubry, Josef Sivic<br>
+        European Conference on Computer Vision, 2020<br>
+				<a href="https://arxiv.org/abs/TODO">paper</a> -
+				<a href="https://www.di.ens.fr/willow/research/cosypose">project page</a> -
+				<a href="https://github.com/ylabbe/cosypose">code</a>
+			</div>
+		</div>
+
+    <br>
+		<div class="row mt-3">
+			<div class="col-sm-4 col-md-3">
+				<img src="./mcts.jpg" class="img-thumbnail img-responsive" alt="MCTS"> 
+			</div>
+			<div class="col-sm-8 col-md-9">
+				<b>Monte-Carlo Tree Search for Efficient Visually Guided Rearrangement Planning</b><br>
+				<u>Yann Labbé</u>, Sergey Zagoruyko, Igor Kalevatykh, Ivan Laptev, Justin Carpentier, Mathieu Aubry, Josef Sivic<br>
+        IEEE Robotics and Automation Letters, 2020 <br>
+				<a href="https://arxiv.org/abs/1904.10348">paper</a> -
+				<a href="https://ylabbe.github.io/rearrangement-planning/">project page</a> -
+				<a href="https://github.com/ylabbe/rearrangement-planning">code</a>
+			</div>
+		</div>
+
+
+
+
+
+</div><div id="b83edd14-d692-4775-a488-9bb3d146dc6d" style="position: fixed; z-index: 2147483647; top: 0px; right: 0px; width: auto; height: auto; margin: 0px; padding: 0px; border: none; outline: none; box-shadow: none; background-color: inherit; font-size: 14px; line-height: 1; text-decoration: none; vertical-align: baseline; user-select: none; pointer-events: none; border-radius: 0px;"></div></body><auto-scroll></auto-scroll></html>
