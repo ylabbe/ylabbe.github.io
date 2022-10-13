@@ -1,0 +1,57 @@
+// 5. Add additional custom code here
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.post-pub{
+  @extend .row;
+}
+
+.pub-img{
+  @extend .col-md-5;
+  @extend .col-sm-12;
+}
+
+.thumbnail{
+  @extend .img-thumbnail;
+  @extend .img-fluid;
+//   @extend .float-end;
+  @extend .mx-auto;
+  @extend .d-block;
+
+  max-height: 200px;
+}
+
+.pub-details{
+  @extend .col-md-7;
+  @extend .col-sm-12;
+}
+
+.pub-infos{
+  @extend .col-md-7;
+  @extend .col-sm-12;
+}
+
+.pub-hrefs{
+    @extend .btn-toolbar;
+}
+
+
+.details-highlight{
+    color: #e74444;
+}
+
+.href-btn{
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .mb-1;
+  @extend .me-1;
+}
+
+.href-btn-invalid{
+  @extend .btn-light;
+  @extend .href-btn;
+}
+
+.href-link{
+  color: #ffffff !important;
+  text-decoration: none;
+}
