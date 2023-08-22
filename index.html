@@ -1,71 +1,75 @@
 <!DOCTYPE html>
-<html><script type="text/javascript" class="__REQUESTLY__SCRIPT">(function(namespace) {
-  window[namespace] = window[namespace] || {};
-  window[namespace].responseRules = {};
+<html>
+<script type="text/javascript" class="__REQUESTLY__SCRIPT">(function (namespace) {
+		window[namespace] = window[namespace] || {};
+		window[namespace].responseRules = {};
 
-  let open = XMLHttpRequest.prototype.open;
-  XMLHttpRequest.prototype.open = function(method) {
-    this.addEventListener('readystatechange', function() {
-      if (this.readyState === 4 && window[namespace].responseRules.hasOwnProperty(this.responseURL)) {
-        const responseRule = window[namespace].responseRules[this.responseURL];
-        const {response, id} = responseRule;
-        const responseType = this.responseType;
-        let customResponse;
+		let open = XMLHttpRequest.prototype.open;
+		XMLHttpRequest.prototype.open = function (method) {
+			this.addEventListener('readystatechange', function () {
+				if (this.readyState === 4 && window[namespace].responseRules.hasOwnProperty(this.responseURL)) {
+					const responseRule = window[namespace].responseRules[this.responseURL];
+					const { response, id } = responseRule;
+					const responseType = this.responseType;
+					let customResponse;
 
-        customResponse = response.type === 'code' ? responseRule.evaluator({
-            method,
-            url: this.responseURL,
-            requestHeaders: this.requestHeaders,
-            requestData: this.requestData,
-            responseType: this.responseType,
-            response: this.response
-          }) : response.value;
+					customResponse = response.type === 'code' ? responseRule.evaluator({
+						method,
+						url: this.responseURL,
+						requestHeaders: this.requestHeaders,
+						requestData: this.requestData,
+						responseType: this.responseType,
+						response: this.response
+					}) : response.value;
 
-        Object.defineProperty(this, 'response', {
-          get: function () {
-            if (response.type === 'static' && responseType === 'json') {
-              return JSON.parse(customResponse);
-            }
-            return customResponse;
-          }
-        });
+					Object.defineProperty(this, 'response', {
+						get: function () {
+							if (response.type === 'static' && responseType === 'json') {
+								return JSON.parse(customResponse);
+							}
+							return customResponse;
+						}
+					});
 
-        if (responseType === '' || responseType === 'text') {
-          Object.defineProperty(this, 'responseText', {
-            get: function () {
-              return customResponse;
-            }
-          });
-        }
+					if (responseType === '' || responseType === 'text') {
+						Object.defineProperty(this, 'responseText', {
+							get: function () {
+								return customResponse;
+							}
+						});
+					}
 
-        window.postMessage({
-          from: 'requestly',
-          type: 'response_rule_applied',
-          id
-        }, window.location.href);
-      }
-    }, false);
-    open.apply(this, arguments);
-  };
+					window.postMessage({
+						from: 'requestly',
+						type: 'response_rule_applied',
+						id
+					}, window.location.href);
+				}
+			}, false);
+			open.apply(this, arguments);
+		};
 
-  let send = XMLHttpRequest.prototype.send;
-  XMLHttpRequest.prototype.send = function(data) {
-    this.requestData = data;
-    send.apply(this, arguments);
-  };
+		let send = XMLHttpRequest.prototype.send;
+		XMLHttpRequest.prototype.send = function (data) {
+			this.requestData = data;
+			send.apply(this, arguments);
+		};
 
-  let setRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
-  XMLHttpRequest.prototype.setRequestHeader = function(header, value) {
-    this.requestHeaders = this.requestHeaders || {};
-    this.requestHeaders[header] = value;
-    setRequestHeader.apply(this, arguments);
-  }
-})('__REQUESTLY__')</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		let setRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
+		XMLHttpRequest.prototype.setRequestHeader = function (header, value) {
+			this.requestHeaders = this.requestHeaders || {};
+			this.requestHeaders[header] = value;
+			setRequestHeader.apply(this, arguments);
+		}
+	})('__REQUESTLY__')</script>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 	<title>Yann Labbé</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="keywords" content="Yann Labbé inria ens machine learning computer vision">
+	<meta name="keywords" content="Yann Labbé inria ens meta machine learning computer vision robotics">
 	<meta name="author" content="Yann Labbé">
 
 	<link rel="stylesheet" href="./scss/style.css">
@@ -76,220 +80,299 @@
 
 		<div class="row pt-3">
 			<div class="col-sm-6 col-md-3">
-				<img src="./photos/yann2022.jpg" class="rounded img-fluid" alt="Yann Labbé"> 
+				<img src="./photos/yann2022.jpg" class="rounded img-fluid" alt="Yann Labbé">
 			</div>
 			<div class="col-sm-6 col-md-9">
 				<h1 class="text-info">Yann Labbé</h1>
-				<h3 class="text-info">PhD student</h3>
+				<h3 class="text-info">Research Scientist</h3>
+				<h5 class="text-info">Meta Reality Labs</h3>
 
-				<div class="row pb-3 pt-3">
-					<div class="col-sm-12">
-							<a style="text-decoration: none" class="pr-1" href="mailto:labbe.yann1994@gmail.com" title="e-Mail">
-								<img src="./logos/mail.png" height="40" width="40" alt="email" style="vertical-align:middle;" border="0" onmouseover="this.src=&#39;./logos/mail.png&#39;;" onmouseout="this.src=&#39;./logos/mail.png&#39;;">
+					<div class="row pb-3 pt-3">
+						<div class="col-sm-12">
+							<a style="text-decoration: none" class="pr-1" href="mailto:labbe.yann1994@gmail.com"
+								title="e-Mail">
+								<img src="./logos/mail.png" height="40" width="40" alt="email"
+									style="vertical-align:middle;" border="0"
+									onmouseover="this.src=&#39;./logos/mail.png&#39;;"
+									onmouseout="this.src=&#39;./logos/mail.png&#39;;">
 							</a>
-							<a style="text-decoration: none" class="pr-1" href="https://scholar.google.com/citations?user=030pukwAAAAJ&hl=en" title="Google Scholar"><span style="font: 80% Arial,sans-serif; color:#0783B6;">
-								<img src="./logos/scholar.png" height="40" widbh="40" alt="google scholar" style="vertical-align:middle;" border="0" onmouseover="this.src=&#39;./logos/scholar.png&#39;;" onmouseout="this.src=&#39;./logos/scholar.png&#39;;">
-							</span></a>
-							<a style="text-decoration: none" class="pr-1" href="https://github.com/ylabbe" title="GitHub">
-								<img src="./logos/github.png" height="40" width="40" alt="github" style="vertical-align:middle;" border="0" onmouseover="this.src=&#39;./logos/github.png&#39;;" onmouseout="this.src=&#39;./logos/github.png&#39;;">
+							<a style="text-decoration: none" class="pr-1"
+								href="https://scholar.google.com/citations?user=030pukwAAAAJ&hl=en"
+								title="Google Scholar"><span style="font: 80% Arial,sans-serif; color:#0783B6;">
+									<img src="./logos/scholar.png" height="40" widbh="40" alt="google scholar"
+										style="vertical-align:middle;" border="0"
+										onmouseover="this.src=&#39;./logos/scholar.png&#39;;"
+										onmouseout="this.src=&#39;./logos/scholar.png&#39;;">
+								</span></a>
+							<a style="text-decoration: none" class="pr-1" href="https://github.com/ylabbe"
+								title="GitHub">
+								<img src="./logos/github.png" height="40" width="40" alt="github"
+									style="vertical-align:middle;" border="0"
+									onmouseover="this.src=&#39;./logos/github.png&#39;;"
+									onmouseout="this.src=&#39;./logos/github.png&#39;;">
 							</a>
-							<a style="text-decoration: none" class="pr-1" href="https://www.linkedin.com/in/yann-labb%C3%A9-360b1b114" title="LinkedIn">
-								<img src="./logos/linkedin.png" height="40" width="40" alt="linkedin" style="vertical-align:middle;" border="0" onmouseover="this.src=&#39;./logos/linkedin.png&#39;;" onmouseout="this.src=&#39;./logos/linkedin.png&#39;;">
+							<a style="text-decoration: none" class="pr-1"
+								href="https://www.linkedin.com/in/yann-labb%C3%A9-360b1b114" title="LinkedIn">
+								<img src="./logos/linkedin.png" height="40" width="40" alt="linkedin"
+									style="vertical-align:middle;" border="0"
+									onmouseover="this.src=&#39;./logos/linkedin.png&#39;;"
+									onmouseout="this.src=&#39;./logos/linkedin.png&#39;;">
 							</a>
+						</div>
 					</div>
-				</div>
-
-				Centre de recherche Inria de Paris<br>
-				2 rue Simone IFF<br>
-				75012 Paris, France<br>
 			</div>
 		</div>
 
-<hr>
-<h2>Bio</h2>
-<p align="justify"> 
-I am a final-year PhD student supervised by <a href="http://people.ciirc.cvut.cz/~sivic/">Josef Sivic</a> in the <a href="https://www.di.ens.fr/willow">Willow</a> project-team of <a href="https://www.inria.fr/">Inria Paris</a> and in the <a href="https://www.di.ens.fr/">Department of Computer Science</a> of <a href="http://www.ens.fr/">Ecole Normale Supérieure</a>.
-<br>
-My main motivation is to develop algorithms that enable robots to perform complex manipulation tasks autonomously in unstructured environments using computer vision. My latest works have focused on recovering functional representations of scenes containing objects and robots. Other areas of interests include task-and-motion planning, synthetic data for training deep networks and robotics control.
-<br>
-Before doing my PhD, I graduated from <a href="https://ens-paris-saclay.fr/en"> Ecole Normale Supérieure de Cachan <a> where I received a dual Masters degree in Mathematics, Machine Learning, Computer Vision <a href="http://math.ens-paris-saclay.fr/version-francaise/formations/master-mva/"> (MVA)</a> and in Electrical Engineering <a href="https://www.universite-paris-saclay.fr/formation/master/electronique-energie-electrique-automatique"> (E3A)</a> with highest honors. In 2017, I was among the top candidates at the nationwide competition <a href="https://en.wikipedia.org/wiki/Agr%C3%A9gation"> Agrégation </a> in Electrical Engineering. I was an intern at Nvidia in 2022 and Chronocam (now Prophesee) in 2016.
-</p>
+		<hr>
+		<h2>Bio</h2>
+		<p align="justify">
+			I am a Research Scientist at Meta Reality Labs in Zurich. I obtained a PhD from <a
+				href="https://www.inria.fr/">Inria Paris</a> and <a href="https://www.di.ens.fr/">Ecole Normale
+				Supérieure</a> where I was supervised by <a href="http://people.ciirc.cvut.cz/~sivic/">Josef Sivic</a>.
+			<!-- My main motivation is to develop algorithms that enable robots to perform complex manipulation tasks
+			autonomously in unstructured environments using computer vision. My latest works have focused on recovering
+			functional representations of scenes containing objects and robots. Other areas of interests include
+			task-and-motion planning, synthetic data for training deep networks and robotics control. -->
+			Before the PhD, I graduated from <a href="https://ens-paris-saclay.fr/en"> Ecole Normale Supérieure de
+				Cachan<a> where I received a dual Masters degree in Mathematics, Machine Learning, Computer Vision <a
+						href="http://math.ens-paris-saclay.fr/version-francaise/formations/master-mva/"> (MVA)</a> and
+					in Electrical Engineering <a
+						href="https://www.universite-paris-saclay.fr/formation/master/electronique-energie-electrique-automatique">
+						(E3A)</a> with highest honors. In 2017, I was among the top candidates at the nationwide
+					competition <a href="https://en.wikipedia.org/wiki/Agr%C3%A9gation"> Agrégation </a> in Electrical
+					Engineering. I was an intern at Nvidia in 2022 and Chronocam (now Prophesee) in 2016.
+		</p>
 
-<h2>Publications</h2>
+		<h2>Publications</h2>
 
-<hr>
-<div class="post-pub">
-	<div class="pub-img">
-		<img src="./thumbnails/megapose.jpg" class="thumbnail" alt="MegaPose">
+		<hr>
+		<div class="post-pub">
+			<div class="pub-img">
+				<img src="./thumbnails/phdthesis.png" class="thumbnail" alt="PhD thesis">
+			</div>
+			<div class="pub-details">
+
+				<b>Pose estimation of rigid objects and robots</b>
+				<br>
+				<u>Yann Labbé</u>
+				<br>
+				PhD Thesis, 2023.
+				<br>
+
+				<div class="pub-hrefs">
+					<a href="https://hal.science/tel-04124865/" class="href-link"><button
+							class="href-btn">link</button></a>
+				</div>
+
+			</div>
+		</div>
+
+		<hr>
+		<div class="post-pub">
+			<div class="pub-img">
+				<img src="./thumbnails/megapose.jpg" class="thumbnail" alt="MegaPose">
+			</div>
+			<div class="pub-details">
+
+				<b>MegaPose: 6D Pose Estimation of Novel Objects via Render & Compare</b>
+				<br>
+				<u>Yann Labbé</u>, Lucas Manuelli, Arsalan Mousavian, Stephen Tyree, Stan Birchfield, Jonathan Tremblay,
+				Justin Carpentier, Mathieu Aubry, Dieter Fox, Josef Sivic
+				<br>
+				CoRL 2022.
+				<br>
+
+				<div class="pub-hrefs">
+					<a href="https://arxiv.org/abs/2212.06870" class="href-link"><button
+							class="href-btn">paper</button></a>
+					<a href="https://megapose6d.github.io/" class="href-link"><button class="href-btn">project
+							page</button></a>
+					<a href="https://github.com/megapose6d/megapose6d" class="href-link"><button
+							class="href-btn">code</button></a>
+					<a href="https://openreview.net/forum?id=1zbWQxFIU-" class="href-link"> <button class="href-btn">
+							openreview </button> </a>
+				</div>
+
+			</div>
+		</div>
+		<hr>
+
+		<div class="post-pub">
+			<div class="pub-img">
+				<img src="./thumbnails/focalpose.jpg" class="thumbnail" alt="FocalPose">
+			</div>
+			<div class="pub-details">
+
+				<b>Focal Length and Object Pose Estimation via Render and Compare</b>
+				<br>
+				Georgy Ponimatkin, <u>Yann Labbé</u>, Bryan Russel, Mathieu Aubry, Josef Sivic
+				<br>
+				CVPR 2022.
+				<br>
+
+				<div class="pub-hrefs">
+					<a href="https://arxiv.org/abs/2204.05145" class="href-link"> <button class="href-btn"> paper
+						</button> </a>
+					<a href="https://ponimatkin.github.io/focalpose/index.html" class="href-link"> <button
+							class="href-btn"> project page </button> </a>
+					<a href="https://github.com/ponimatkin/focalpose" class="href-link"> <button class="href-btn"> code
+						</button> </a>
+				</div>
+
+			</div>
+		</div>
+		<hr>
+
+		<div class="post-pub">
+			<div class="pub-img">
+				<img src="./thumbnails/cosyslam.png" class="thumbnail" alt="CosySLAM">
+			</div>
+			<div class="pub-details">
+
+				<b>CosySlam: investigating object-level SLAM for detecting locomotion surfaces</b>
+				<br>
+				César Debeunne, Médéric Fourmy, <u>Yann Labbé</u>, Pierre-Alexandre Léziart, Guilhem Saurel, Joan Solà,
+				Nicolas Mansard
+				<br>
+				Preprint, 2022.
+				<br>
+
+				<div class="pub-hrefs">
+					<a href="https://hal.archives-ouvertes.fr/hal-03351438v2" class="href-link"> <button
+							class="href-btn"> paper </button> </a>
+				</div>
+
+			</div>
+		</div>
+		<hr>
+
+
+		<div class="post-pub">
+			<div class="pub-img">
+				<img src="./thumbnails/robopose.png" class="thumbnail" alt="RoboPose">
+			</div>
+			<div class="pub-details">
+
+				<b>Single-view robot pose and joint angle estimation via render & compare</b><br>
+				<u>Yann Labbé</u>, Justin Carpentier, Mathieu Aubry, Josef Sivic<br>
+				CVPR 2021.
+				<br>
+				<div class="details-highlight"> Accepted as oral (top 4% submissions). </div>
+
+				<div class="pub-hrefs">
+					<a href="https://arxiv.org/abs/2104.09359" class="href-link"> <button class="href-btn"> paper
+						</button> </a>
+					<a href="https://www.di.ens.fr/willow/research/robopose" class="href-link"> <button
+							class="href-btn"> project page </button> </a>
+					<a href="https://github.com/ylabbe/robopose" class="href-link"> <button class="href-btn"> code
+						</button> </a>
+				</div>
+
+			</div>
+		</div>
+		<hr>
+
+		<div class="post-pub">
+			<div class="pub-img">
+				<img src="./thumbnails/cosypose_pami.png" class="thumbnail" alt="CosyPose">
+			</div>
+			<div class="pub-details">
+
+				<b>CosyPose: Consistent multi-view multi-object 6D pose estimation</b><br>
+				<u>Yann Labbé</u>, Justin Carpentier, Mathieu Aubry, Josef Sivic<br>
+				Preprint, 2021.<br>
+				Journal version of the ECCV paper. <br>
+
+				<div class="pub-hrefs">
+					<a href="https://drive.google.com/file/d/1YVemqAEb_aL174XPYD-wag-DW7mUnvzC/view?usp=sharing">
+						<button class="href-btn"> paper </button> </a>
+				</div>
+			</div>
+		</div>
+		<hr>
+
+		<div class="post-pub">
+			<div class="pub-img">
+				<img src="./thumbnails/bop.png" class="thumbnail" alt="BOP">
+			</div>
+
+			<div class="pub-details">
+				<b>BOP Challenge 2020 on 6D Object Localization</b><br>
+				Tomas Hodaň, Martin Sundermeyer, Bertram Drost, <u>Yann Labbé</u>, Eric Brachmann, Frank Michel, Carsten
+				Rother, Jiri Matas<br>
+				ECCVW 2020.<br>
+
+				<div class="pub-hrefs">
+					<a href="https://arxiv.org/abs/2009.07378" class="href-link"> <button class="href-btn"> paper
+						</button> </a>
+					<a href="https://bop.felk.cvut.cz/challenges/bop-challenge-2020/" class="href-link"> <button
+							class="href-btn"> website </button> </a>
+					<a href="http://cmp.felk.cvut.cz/sixd/workshop_2020/" class="href-link"> <button class="href-btn">
+							workshop </button> </a>
+				</div>
+
+			</div>
+		</div>
+		<hr>
+
+		<div class="post-pub">
+			<div class="pub-img">
+				<img src="./thumbnails/cosypose.png" class="thumbnail" alt="CosyPose">
+			</div>
+			<div class="pub-details">
+
+				<b>CosyPose: Consistent multi-view multi-object 6D pose estimation</b><br>
+				<u>Yann Labbé</u>, Justin Carpentier, Mathieu Aubry, Josef Sivic<br>
+				ECCV 2020.<br>
+				<div class="details-highlight">
+					Winner of the BOP Challenge at ECCV 2020 (5/6 awards).
+				</div>
+
+
+				<div class="pub-hrefs">
+					<a href="https://arxiv.org/abs/2008.08465" class="href-link"> <button class="href-btn"> paper
+						</button></a>
+					<a href="https://www.di.ens.fr/willow/research/cosypose" class="href-link"> <button
+							class="href-btn"> project page </button></a>
+					<a href="https://github.com/ylabbe/cosypose" class="href-link"> <button class="href-btn"> code
+						</button></a>
+					<a href="https://youtu.be/MNH_Ez7bcP0" class="href-link"> <button class="href-btn"> video
+						</button></a>
+					<a
+						href="https://docs.google.com/presentation/d/1jZDu4mw-uNcwzr5jMFlqEddZsb7SjQozXVG3dT6-1M0/edit?usp=sharing">
+						<button class="href-btn"> BOP slides </button> </a>
+				</div>
+			</div>
+		</div>
+		<hr>
+
+		<div class="post-pub">
+			<div class="pub-img">
+				<img src="./thumbnails/mcts.jpg" class="thumbnail" alt="MCTS">
+			</div>
+			<div class="pub-details">
+
+				<b>Monte-Carlo Tree Search for Efficient Visually Guided Rearrangement Planning</b><br>
+				<u>Yann Labbé</u>, Sergey Zagoruyko, Igor Kalevatykh, Ivan Laptev, Justin Carpentier, Mathieu Aubry,
+				Josef Sivic<br>
+				RAL 2020. <br>
+
+				<div class="pub-hrefs">
+					<a href="https://arxiv.org/abs/1904.10348"><button class="href-btn">paper</button></a>
+					<a href="https://ylabbe.github.io/rearrangement-planning/"><button class="href-btn">project
+							page</button></a>
+					<a href="https://github.com/ylabbe/rearrangement-planning"><button
+							class="href-btn">code</button></a>
+				</div>
+			</div>
+		</div>
+		<hr>
+
+
 	</div>
-	<div class="pub-details">
-
-	<b>MegaPose: 6D Pose Estimation of Novel Objects via Render & Compare</b>
-	<br>
-	<u>Yann Labbé</u>, Lucas Manuelli, Arsalan Mousavian, Stephen Tyree, Stan Birchfield, Jonathan Tremblay, Justin Carpentier, Mathieu Aubry, Dieter Fox, Josef Sivic
-	<br>
-	CoRL 2022.
-	<br>
-	
-	<div class="pub-hrefs">
-		<a href="https://arxiv.org/abs/2212.06870" class="href-link"><button class="href-btn">paper</button></a>
-		<a href="https://megapose6d.github.io/" class="href-link"><button class="href-btn">project page</button></a>
-		<a href="https://github.com/megapose6d/megapose6d" class="href-link"><button class="href-btn">code</button></a>
-		<a href="https://openreview.net/forum?id=1zbWQxFIU-" class="href-link"> <button class="href-btn">  openreview </button> </a>
+	<div id="b83edd14-d692-4775-a488-9bb3d146dc6d"
+		style="position: fixed; z-index: 2147483647; top: 0px; right: 0px; width: auto; height: auto; margin: 0px; padding: 0px; border: none; outline: none; box-shadow: none; background-color: inherit; font-size: 14px; line-height: 1; text-decoration: none; vertical-align: baseline; user-select: none; pointer-events: none; border-radius: 0px;">
 	</div>
+</body><auto-scroll></auto-scroll>
 
-	</div>
-</div>
-<hr>
-
-<div class="post-pub">
-	<div class="pub-img">
-		<img src="./thumbnails/focalpose.jpg" class="thumbnail" alt="FocalPose">
-	</div>
-	<div class="pub-details">
-
-	<b>Focal Length and Object Pose Estimation via Render and Compare</b>
-	<br>
-	Georgy Ponimatkin, <u>Yann Labbé</u>, Bryan Russel, Mathieu Aubry, Josef Sivic
-	<br>
-	CVPR 2022.
-	<br>
-	
-	<div class="pub-hrefs">
-		<a href="https://arxiv.org/abs/2204.05145" class="href-link"> <button class="href-btn">  paper </button> </a>
-		<a href="https://ponimatkin.github.io/focalpose/index.html" class="href-link"> <button class="href-btn">  project page </button> </a>
-		<a href="https://github.com/ponimatkin/focalpose" class="href-link"> <button class="href-btn"> code </button> </a>
-	</div>
-
-	</div>
-</div>
-<hr>
-
-<div class="post-pub">
-	<div class="pub-img">
-		<img src="./thumbnails/cosyslam.png" class="thumbnail" alt="CosySLAM">
-	</div>
-	<div class="pub-details">
-
-	<b>CosySlam: investigating object-level SLAM for detecting locomotion surfaces</b>
-	<br>
-	César Debeunne, Médéric Fourmy, <u>Yann Labbé</u>, Pierre-Alexandre Léziart, Guilhem Saurel, Joan Solà, Nicolas Mansard
-	<br>
-	Preprint, 2022.
-	<br>
-	
-	<div class="pub-hrefs">
-		<a href="https://hal.archives-ouvertes.fr/hal-03351438v2" class="href-link"> <button class="href-btn">  paper </button> </a>
-	</div>
-
-	</div>
-</div>
-<hr>
-
-
-<div class="post-pub">
-	<div class="pub-img">
-		<img src="./thumbnails/robopose.png" class="thumbnail" alt="RoboPose">
-	</div>
-	<div class="pub-details">
-
-	<b>Single-view robot pose and joint angle estimation via render & compare</b><br>
-	<u>Yann Labbé</u>, Justin Carpentier, Mathieu Aubry, Josef Sivic<br>
-	CVPR 2021.
-	<br>
-	<div class="details-highlight"> Accepted as oral (top 4% submissions).  </div>
-
-	<div class="pub-hrefs">
-		<a href="https://arxiv.org/abs/2104.09359" class="href-link"> <button class="href-btn">  paper </button> </a>
-		<a href="https://www.di.ens.fr/willow/research/robopose" class="href-link"> <button class="href-btn">  project page </button> </a>
-		<a href="https://github.com/ylabbe/robopose" class="href-link"> <button class="href-btn"> code </button> </a>
-	</div>
-
-	</div>
-</div>
-<hr>
-
-<div class="post-pub">
-	<div class="pub-img">
-		<img src="./thumbnails/cosypose_pami.png" class="thumbnail" alt="CosyPose">
-	</div>
-	<div class="pub-details">
-
-	<b>CosyPose: Consistent multi-view multi-object 6D pose estimation</b><br>
-	<u>Yann Labbé</u>, Justin Carpentier, Mathieu Aubry, Josef Sivic<br>
-	Preprint, 2021.<br>
-	Journal version of the ECCV paper. <br>
-	
-	<div class="pub-hrefs">
-		<a href="https://drive.google.com/file/d/1YVemqAEb_aL174XPYD-wag-DW7mUnvzC/view?usp=sharing"> <button class="href-btn"> paper </button> </a>
-	</div>
-	</div>
-</div>
-<hr>
-
-<div class="post-pub">
-	<div class="pub-img">
-		<img src="./thumbnails/bop.png" class="thumbnail" alt="BOP">
-	</div>
-
-	<div class="pub-details">
-	<b>BOP Challenge 2020 on 6D Object Localization</b><br>
-	Tomas Hodaň, Martin Sundermeyer, Bertram Drost, <u>Yann Labbé</u>, Eric Brachmann, Frank Michel, Carsten Rother, Jiri Matas<br>
-	ECCVW 2020.<br>
-
-	<div class="pub-hrefs">
-		<a href="https://arxiv.org/abs/2009.07378" class="href-link"> <button class="href-btn">  paper </button> </a>
-		<a href="https://bop.felk.cvut.cz/challenges/bop-challenge-2020/" class="href-link"> <button class="href-btn">  website </button> </a>
-		<a href="http://cmp.felk.cvut.cz/sixd/workshop_2020/" class="href-link"> <button class="href-btn">  workshop </button> </a>
-	</div>
-
-	</div>
-</div>
-<hr>
-
-<div class="post-pub">
-	<div class="pub-img">
-		<img src="./thumbnails/cosypose.png" class="thumbnail" alt="CosyPose">
-	</div>
-	<div class="pub-details">
-
-	<b>CosyPose: Consistent multi-view multi-object 6D pose estimation</b><br>
-	<u>Yann Labbé</u>, Justin Carpentier, Mathieu Aubry, Josef Sivic<br>
-	ECCV 2020.<br>
-	<div class="details-highlight">
-	Winner of the BOP Challenge at ECCV 2020 (5/6 awards).
-	</div>
-
-	
-	<div class="pub-hrefs">
-		<a href="https://arxiv.org/abs/2008.08465" class="href-link"> <button class="href-btn"> paper </button></a>
-		<a href="https://www.di.ens.fr/willow/research/cosypose" class="href-link"> <button class="href-btn"> project page </button></a>
-		<a href="https://github.com/ylabbe/cosypose" class="href-link"> <button class="href-btn"> code </button></a>
-		<a href="https://youtu.be/MNH_Ez7bcP0" class="href-link"> <button class="href-btn"> video </button></a>
-		<a href="https://docs.google.com/presentation/d/1jZDu4mw-uNcwzr5jMFlqEddZsb7SjQozXVG3dT6-1M0/edit?usp=sharing"> <button class="href-btn">  BOP slides </button> </a>
-	</div>
-	</div>
-</div>
-<hr>
-
-<div class="post-pub">
-	<div class="pub-img">
-		<img src="./thumbnails/mcts.jpg" class="thumbnail" alt="MCTS"> 
-	</div>
-	<div class="pub-details">
-
-	<b>Monte-Carlo Tree Search for Efficient Visually Guided Rearrangement Planning</b><br>
-	<u>Yann Labbé</u>, Sergey Zagoruyko, Igor Kalevatykh, Ivan Laptev, Justin Carpentier, Mathieu Aubry, Josef Sivic<br>
-	RAL 2020. <br>
-
-	<div class="pub-hrefs">
-		<a href="https://arxiv.org/abs/1904.10348"><button class="href-btn">paper</button></a> 
-		<a href="https://ylabbe.github.io/rearrangement-planning/"><button class="href-btn">project page</button></a>
-		<a href="https://github.com/ylabbe/rearrangement-planning"><button class="href-btn">code</button></a>
-	</div>
-	</div>
-</div>
-<hr>
-
-
-</div><div id="b83edd14-d692-4775-a488-9bb3d146dc6d" style="position: fixed; z-index: 2147483647; top: 0px; right: 0px; width: auto; height: auto; margin: 0px; padding: 0px; border: none; outline: none; box-shadow: none; background-color: inherit; font-size: 14px; line-height: 1; text-decoration: none; vertical-align: baseline; user-select: none; pointer-events: none; border-radius: 0px;"></div></body><auto-scroll></auto-scroll></html>
+</html>
