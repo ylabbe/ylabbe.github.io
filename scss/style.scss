@@ -1,33 +1,38 @@
 // 5. Add additional custom code here
 @import "../node_modules/bootstrap/scss/bootstrap";
 
-.post-pub{
+$representative-color: #c3e2d4;
+
+.publication{
   @extend .row;
+  padding: 12px;
+}
+
+.representative-publication{
+  @extend .publication;
+  background-color: $representative-color;
 }
 
 .pub-img{
-  @extend .col-md-5;
-  @extend .col-sm-12;
+  @extend .col-md-3;
+  @extend .col-sm-3;
+  display: flex;
+  align-items: center;
+  
 }
 
 .thumbnail{
-  @extend .img-thumbnail;
-  @extend .img-fluid;
-//   @extend .float-end;
-  @extend .mx-auto;
-  @extend .d-block;
-
-  max-height: 200px;
+  //@extend .img-thumbnail;
+  //@extend .img-fluid;
+  //@extend .float-end;
+  //@extend .d-block;
+  width: 280px;
+  //max-height: 250px;
 }
 
 .pub-details{
-  @extend .col-md-7;
-  @extend .col-sm-12;
-}
-
-.pub-infos{
-  @extend .col-md-7;
-  @extend .col-sm-12;
+  @extend .col-md-9;
+  @extend .col-sm-9;
 }
 
 .pub-hrefs{
@@ -52,6 +57,12 @@
 }
 
 .href-link{
-  color: #ffffff !important;
+  color: #1900ff !important;
   text-decoration: none;
+}
+
+.href-paper-link{
+  color: #1900ff !important;
+  text-decoration: none;
+  margin-right: 20px;
 }
